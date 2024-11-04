@@ -1,0 +1,16 @@
+version: '3.8'
+
+networks:
+  dev-net:
+    driver: bridge
+
+services:
+  ab-messenger:
+    container_name: ab-messenger
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - .:/app
+    networks:
+      - dev-net

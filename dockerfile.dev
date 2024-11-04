@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/devcontainers/java:1-21-bullseye
+
+WORKDIR /app
+
+RUN apt-get update
+
+RUN git config --global --add safe.directory /app
+
+CMD ["tail", "-f", "/dev/null"]
