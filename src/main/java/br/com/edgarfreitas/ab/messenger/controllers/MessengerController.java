@@ -1,5 +1,7 @@
 package br.com.edgarfreitas.ab.messenger.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.edgarfreitas.ab.messenger.domain.email.EmailService;
@@ -9,17 +11,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@RestController
+@RestController()
 public class MessengerController {
     private final EmailService emailService;
 
+    @Autowired
     public MessengerController(EmailService emailService) {
         this.emailService = emailService;
     }
 
-    @PostMapping("/email")
+    @PostMapping("send")
     public void postMethodName(@RequestBody EmailDto emailDto) {
-        emailService.Send(emailDto);        
+        emailService.Send(emailDto);
+    }
+
+    @GetMapping("/teste")
+    public String test() {
+        return "ab-message";
     }
     
 }
