@@ -1,14 +1,13 @@
 package br.com.edgarfreitas.ab.messenger.domain.email;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.assertj.core.api.Assertions;
+import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class EmailServiceTest {
@@ -28,9 +27,8 @@ public class EmailServiceTest {
         .bodyHtml(true)
         .build();
 
-        emailService.Send(email);
-        
-
+        ResonseDto resonseDto = emailService.Send(email);
+        assertTrue(resonseDto.success());
 	}
 
 }

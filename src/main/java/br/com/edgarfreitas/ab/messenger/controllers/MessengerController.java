@@ -1,6 +1,6 @@
 package br.com.edgarfreitas.ab.messenger.controllers;
 
-import br.com.edgarfreitas.ab.messenger.domain.email.dto.ResonseDto;
+import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

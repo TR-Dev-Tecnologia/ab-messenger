@@ -1,7 +1,7 @@
 package br.com.edgarfreitas.ab.messenger.controllers;
 
 import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
-import br.com.edgarfreitas.ab.messenger.domain.email.dto.ResonseDto;
+import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
