@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_package = "br.com.edgarfreitas.ab.messenger.v1.email.stubs";
+option java_multiple_files = true;
+
+package br.com.edgarfreitas.ab.messenger.v1.email;
+
+message SendMailRequest {
+  // a name to greet, default is "World"
+  string body = 1;
+  string to = 2;
+  string toName = 3;
+  string from = 4;
+  string fromName = 5;
+  string withCopy = 6;
+  string subject = 7;
+  bool bodyHtml = 8;
+}
+
+message SendMailResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service EmailService {
+  rpc send(SendMailRequest) returns (SendMailResponse);
+}

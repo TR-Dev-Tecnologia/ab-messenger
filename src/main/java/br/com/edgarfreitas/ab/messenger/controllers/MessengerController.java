@@ -22,9 +22,6 @@ public class MessengerController {
         return emailService.Send(emailDto);
     }
 
-    @RequestMapping("/")
-    public @ResponseBody String greeting() {
-        return "Hello, World";
-    }
+
 
 }
