@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "br.com.edgarfreitas.ab.messenger.v1.sms.stubs";
+option java_multiple_files = true;
+
+package br.com.edgarfreitas.ab.messenger.v1.sms;
+
+message SmsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message SmsRequest {
+  string fromPhoneNumber = 1;
+  string toPhoneNumber = 2;
+  string name = 3;
+  string namePersonalization = 4;
+  string text = 5;
+}
+
+service SmsService {
+  rpc send(SmsRequest) returns (SmsResponse);
+}
