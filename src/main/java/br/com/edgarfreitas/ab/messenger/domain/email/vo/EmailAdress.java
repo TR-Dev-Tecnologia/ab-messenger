@@ -27,11 +27,6 @@ public class EmailAdress {
         return matcher.matches();
     }
 
-    @Override
-    public String toString() {
-        return email+" "+name;
-    }
-
     public String getEmail() {
         return email;
     }

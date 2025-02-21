@@ -8,6 +8,7 @@ import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
 import br.com.edgarfreitas.ab.messenger.v1.email.stubs.EmailServiceGrpc;
 import br.com.edgarfreitas.ab.messenger.v1.email.stubs.SendMailRequest;
 import br.com.edgarfreitas.ab.messenger.v1.email.stubs.SendMailResponse;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,20 +46,17 @@ public class EmailController extends EmailServiceGrpc.EmailServiceImplBase {
 
     @Override
     public void send(SendMailRequest request, StreamObserver<SendMailResponse> responseObserver) {
-
-        EmailDto email = null;
         try {
-            email = ToEmailDto(request);
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
+            EmailDto email = ToEmailDto(request);
+            ResonseDto resonseDto = emailService.Send(email);
+            responseObserver.onNext(SendMailResponse.newBuilder()
+                    .setSuccess(resonseDto.success())
+                    .setMessage(resonseDto.message())
+                    .build());
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription(e.getMessage()).asRuntimeException());
+        } finally {
+            responseObserver.onCompleted();
         }
-
-        ResonseDto resonseDto = emailService.Send(email);
-
-        responseObserver.onNext(SendMailResponse.newBuilder()
-                .setSuccess(resonseDto.success())
-                .setMessage(resonseDto.message())
-                .build());
-        responseObserver.onCompleted();
     }
 }
