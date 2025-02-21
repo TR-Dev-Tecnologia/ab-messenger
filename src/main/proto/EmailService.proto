@@ -5,16 +5,19 @@ option java_multiple_files = true;
 
 package br.com.edgarfreitas.ab.messenger.v1.email;
 
+message Email {
+  string email = 1;
+  string name = 2;
+}
+
 message SendMailRequest {
   // a name to greet, default is "World"
   string body = 1;
-  string to = 2;
-  string toName = 3;
-  string from = 4;
-  string fromName = 5;
-  string withCopy = 6;
-  string subject = 7;
-  bool bodyHtml = 8;
+  Email from = 2;
+  repeated Email recipients = 3;
+  repeated Email withCopy = 4;
+  string subject = 5;
+  bool bodyHtml = 6;
 }
 
 message SendMailResponse {

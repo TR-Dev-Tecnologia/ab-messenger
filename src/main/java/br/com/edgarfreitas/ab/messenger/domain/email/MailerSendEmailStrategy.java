@@ -25,8 +25,11 @@ public class MailerSendEmailStrategy implements ISendMailStrategy {
 
         Email email = new Email();
     
-        email.setFrom(emailDto.getFromName(), "noreply@"+domain);
-        email.addRecipient(emailDto.getToName(), emailDto.getTo());
+        email.setFrom(emailDto.getFrom().getName(), "noreply@"+domain);
+        emailDto.getRecipients().forEach( emailAdress -> {
+            email.addRecipient(emailAdress.getName(), emailAdress.getEmail());
+        });
+
     
         email.setSubject(emailDto.getSubject());
 

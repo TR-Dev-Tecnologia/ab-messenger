@@ -2,6 +2,8 @@ package br.com.edgarfreitas.ab.messenger.controllers.grpc;
 
 import br.com.edgarfreitas.ab.messenger.domain.email.EmailService;
 import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
+import br.com.edgarfreitas.ab.messenger.domain.email.vo.EmailAdress;
+import br.com.edgarfreitas.ab.messenger.domain.exception.ValidationException;
 import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
 import br.com.edgarfreitas.ab.messenger.v1.email.stubs.EmailServiceGrpc;
 import br.com.edgarfreitas.ab.messenger.v1.email.stubs.SendMailRequest;
@@ -10,25 +12,46 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @GrpcService
 public class EmailController extends EmailServiceGrpc.EmailServiceImplBase {
 
     @Autowired
     private EmailService emailService;
 
+    private EmailDto ToEmailDto(SendMailRequest request) throws ValidationException {
+        List<EmailAdress> recipients = new ArrayList<>();
+        request.getRecipientsList().forEach(a -> {
+            recipients.add(new EmailAdress(a.getEmail(), a.getName()));
+        });
+
+        List<EmailAdress> withCopy = new ArrayList<>();
+        request.getWithCopyList().forEach(a -> {
+            withCopy.add(new EmailAdress(a.getEmail(), a.getName()));
+        });
+
+        return new EmailDto(
+                request.getBody(),
+                new EmailAdress(request.getFrom().getEmail(), request.getFrom().getName()),
+                withCopy,
+                request.getSubject(),
+                request.getBodyHtml(),
+                recipients
+        );
+
+    }
+
     @Override
     public void send(SendMailRequest request, StreamObserver<SendMailResponse> responseObserver) {
 
-        EmailDto email = EmailDto.builder()
-                .toName(request.getToName())
-                .subject(request.getSubject())
-                .body(request.getBody())
-                .from(request.getFrom())
-                .to(request.getTo())
-                .fromName(request.getFromName())
-                .bodyHtml(request.getBodyHtml())
-                .withCopy(request.getWithCopy())
-                .build();
+        EmailDto email = null;
+        try {
+            email = ToEmailDto(request);
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
 
         ResonseDto resonseDto = emailService.Send(email);
 
