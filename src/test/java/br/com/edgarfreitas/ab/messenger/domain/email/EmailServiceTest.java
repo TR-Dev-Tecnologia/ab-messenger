@@ -1,5 +1,6 @@
 package br.com.edgarfreitas.ab.messenger.domain.email;
 
+import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
 import br.com.edgarfreitas.ab.messenger.domain.email.vo.EmailAdress;
 import br.com.edgarfreitas.ab.messenger.domain.exception.ValidationException;
 import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
@@ -7,13 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
+import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDtoTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class EmailServiceTest {
@@ -22,18 +22,17 @@ public class EmailServiceTest {
     private EmailService emailService;
 
     @Test
-	void send() throws ValidationException {
-        EmailDto email = new EmailDto(
+	void send() {
+        assertDoesNotThrow(() -> { EmailDto email = new EmailDto(
                 "<h1>Título</h1><br><br><br>teste, teste ,teste",
                 new EmailAdress("edgartf3@yahoo.com.br", "João da Silva"),
                 null,
                 "Unit Test",
                 true,
-                List.of(new EmailAdress("edgartorresfreitas@gmail.com", "Edgar"))
-        );
-
-        ResonseDto resonseDto = emailService.Send(email);
-        assertTrue(resonseDto.success());
+                List.of(new EmailAdress("edgartorresfreitas@gmail.com", "Edgar")));
+            ResonseDto resonseDto = emailService.Send(email);
+            assertTrue(resonseDto.success());
+        });
 	}
 
     @Test
@@ -100,5 +99,4 @@ public class EmailServiceTest {
         ));
         assertEquals("From is mandatory", ex.getMessage());
     }
-
 }

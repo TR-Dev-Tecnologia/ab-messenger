@@ -40,7 +40,6 @@ public class MailerSendSmsStrategy implements ISendSMSStrategy {
             System.out.println(messageId);
             return true;
         } catch (MailerSendException e) {
-            e.printStackTrace();
             return false;
         }
     }
