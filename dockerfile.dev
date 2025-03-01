@@ -1,8 +1,28 @@
-FROM mcr.microsoft.com/devcontainers/java:1-21-bullseye
+FROM ubuntu:20.04
 
 WORKDIR /app
 
-RUN apt-get update
+RUN apt-get update && apt-get install -y \
+    curl \
+    unzip \
+    openjdk-21-jdk \
+    maven \
+    && apt-get clean
+
+RUN apt-get install git -y
+
+# Definindo variáveis de ambiente para o Java e Maven
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV MAVEN_HOME=/usr/share/maven
+ENV PATH=$JAVA_HOME/bin:$MAVEN_HOME/bin:$PATH
+
+# Verificando as versões instaladas (opcional, mas útil para depuração)
+RUN java -version
+RUN mvn -version
+
+COPY pom.xml .
+
+RUN mvn dependency:go-offline
 
 RUN git config --global --add safe.directory /app
 
