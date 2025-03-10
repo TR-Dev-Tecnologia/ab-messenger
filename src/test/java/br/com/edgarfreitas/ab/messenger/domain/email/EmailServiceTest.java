@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDtoTest;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
