@@ -1,9 +1,5 @@
 version: '3.8'
 
-networks:
-  dev-net:
-    driver: bridge
-
 services:
   messenger-service:
     container_name: messenger-dev
@@ -14,5 +10,10 @@ services:
       - 9090:9090
     volumes:
       - .:/app
+      - ~/.ssh:/root/.ssh
     networks:
       - dev-net
+
+networks:
+  dev-net:
+    driver: bridge
