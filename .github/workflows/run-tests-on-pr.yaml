@@ -34,5 +34,9 @@ jobs:
     - name: Compile
       run: mvn compile
 
+    - name: Set environment variable from secret
+      run: echo "MAILERSEND_DOMAIN=${{ secrets.MAILERSEND_DOMAIN }}" >> $GITHUB_ENV
+      run: echo "MAILERSEND_TOKEN=${{ secrets.MAILERSEND_TOKEN }}" >> $GITHUB_ENV
+
     - name: Run tests
       run: mvn test
