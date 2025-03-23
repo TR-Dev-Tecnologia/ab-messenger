@@ -4,20 +4,33 @@ import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
 import br.com.edgarfreitas.ab.messenger.domain.email.vo.EmailAdress;
 import br.com.edgarfreitas.ab.messenger.domain.exception.ValidationException;
 import br.com.edgarfreitas.ab.messenger.domain.response.ResonseDto;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class EmailServiceTest {
 
-    @Autowired    
+    @Mock
+    private ISendMailStrategy mailerSendEmailStrategy;
+
+    @InjectMocks
     private EmailService emailService;
+
+    @BeforeEach
+    private void setup() {
+        when(mailerSendEmailStrategy.Send(any())).thenReturn(true);       
+    }
 
     @Test
 	void send() {
