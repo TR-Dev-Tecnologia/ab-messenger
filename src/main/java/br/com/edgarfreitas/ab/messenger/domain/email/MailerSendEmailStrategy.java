@@ -2,6 +2,8 @@ package br.com.edgarfreitas.ab.messenger.domain.email;
 
 import br.com.edgarfreitas.ab.messenger.domain.email.dto.EmailDto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.mailersend.sdk.MailerSend;
@@ -13,6 +15,8 @@ import com.mailersend.sdk.exceptions.MailerSendException;
 @Component
 public class MailerSendEmailStrategy implements ISendMailStrategy {
 
+    Logger logger = LoggerFactory.getLogger(MailerSendEmailStrategy.class);
+
     @Value("${settings.mailersend.token}")
     String token;
 
@@ -22,7 +26,7 @@ public class MailerSendEmailStrategy implements ISendMailStrategy {
 
     @Override
     public boolean Send(EmailDto emailDto) {
-
+        logger.info("MailerSendEmailStrategy.Send - Start");
         Email email = new Email();
     
         email.setFrom(emailDto.getFrom().getName(), "noreply@"+domain);
@@ -49,9 +53,11 @@ public class MailerSendEmailStrategy implements ISendMailStrategy {
             MailerSendResponse response = ms.emails().send(email); 
             return (response.responseStatusCode == 202);            
         } catch (MailerSendException e) {            
-            e.printStackTrace();
+            logger.error("MailerSendEmailStrategy.Send - Error: " + e.getMessage(), e);
             return false;
-        }              
+        } finally {
+            logger.info("MailerSendEmailStrategy.Send - Finally");
+        }         
     }
 
 }
