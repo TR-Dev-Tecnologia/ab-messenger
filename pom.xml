@@ -107,6 +107,7 @@
 					<pluginArtifact>
 						io.grpc:protoc-gen-grpc-java:1.4.0:exe:${os.detected.classifier}
 					</pluginArtifact>
+					<deleteGeneratedFiles>false</deleteGeneratedFiles>
 				</configuration>
 				<executions>
 					<execution>
